@@ -1,6 +1,8 @@
-"use client"
+'use client'
+
 import Link from "next/link"
 import { usePathname } from "next/navigation"
+import { motion } from "framer-motion"
 import {
   CalendarCheck,
   Wallet,
@@ -29,24 +31,31 @@ export default function Sidebar() {
   const pathname = usePathname()
 
   return (
-    <aside className="w-64 h-screen bg-white border-r shadow-sm p-6 sticky top-0">
-      <Link href="/hr"><h2 className="text-xl font-bold mb-6 text-indigo-600">HR Dashboard</h2></Link>
+    <aside className="w-64 h-screen bg-white border-r border-red-100 shadow-sm p-6 sticky top-0">
+      <Link href="/hr">
+        <h2 className="text-xl font-bold mb-6 text-red-600">HR Dashboard</h2>
+      </Link>
       <nav>
         <ul className="space-y-2">
           {navItems.map((item) => (
-            <li key={item.href}>
+            <motion.li
+              key={item.href}
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.98 }}
+              transition={{ type: 'spring', stiffness: 220, damping: 15 }}
+            >
               <Link
                 href={item.href}
                 className={`flex items-center gap-3 px-4 py-2 rounded-md text-sm font-medium transition-all ${
                   pathname === item.href
-                    ? "bg-indigo-100 text-indigo-700"
-                    : "text-gray-700 hover:bg-gray-100"
+                    ? "bg-red-100 text-red-700"
+                    : "text-gray-700 hover:bg-red-50"
                 }`}
               >
                 {item.icon}
                 {item.title}
               </Link>
-            </li>
+            </motion.li>
           ))}
         </ul>
       </nav>

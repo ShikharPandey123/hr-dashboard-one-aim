@@ -8,7 +8,7 @@ export default function RootLayout({ children }) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="description" content="Manage your HR operations efficiently" />
       </head>
-      <body className="bg-gray-50 text-gray-900 antialiased">
+      <body className="bg-gradient-to-br from-red-50 via-white to-red-50 text-gray-900 antialiased">
         {children}
       </body>
     </html>
