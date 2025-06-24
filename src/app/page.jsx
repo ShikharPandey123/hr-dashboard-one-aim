@@ -1,32 +1,26 @@
 'use client'
 
-import Link from "next/link"
-import { motion } from "framer-motion"
+import { motion } from 'framer-motion'
+import ModuleCard from '@/components/ModuleCard'
 
-export default function HomePage() {
+export default function HRDashboardPage() {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-red-50 via-white to-red-50 px-4">
-      <motion.div
-        initial={{ opacity: 0, y: 40 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, ease: "easeOut" }}
-        className="max-w-md text-center bg-white shadow-lg rounded-xl p-10 border border-gray-100"
-      >
-        <h1 className="text-3xl font-bold text-red-600 mb-4">
-          Welcome to the SHRM Portal
-        </h1>
-        <p className="text-gray-600 mb-6">
-          Manage all your HR operations from one powerful dashboard.
-        </p>
-        <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
-          <Link
-            href="/hr"
-            className="inline-block bg-red-600 text-white px-6 py-3 rounded-lg text-sm font-medium shadow hover:bg-red-500 transition"
-          >
-            Go to HR Dashboard →
-          </Link>
-        </motion.div>
-      </motion.div>
-    </div>
+    <motion.div
+      initial={{ opacity: 0, y: 24 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6, ease: 'easeOut' }}
+      className="p-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 text-gray-700"
+    >
+      <ModuleCard title="Attendance" href="/attendance" />
+      <ModuleCard title="Payroll" href="/payroll" />
+      <ModuleCard title="Recruitment" href="/recruitment" />
+      <ModuleCard title="Compliance" href="/compliance" />
+      <ModuleCard title="Notifications" href="/notifications" />
+      <ModuleCard title="HR Actions" href="/actions" />
+      <ModuleCard title="Employees" href="/employees" />
+      <ModuleCard title="Policies" href="/policies" />
+      <ModuleCard title="Reports" href="/reports" />
+    </motion.div>
   )
 }
+
