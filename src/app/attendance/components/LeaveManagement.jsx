@@ -1,5 +1,7 @@
 'use client'
+
 import { useState } from 'react'
+import { motion } from 'framer-motion'
 
 const dummyLeaves = [
   { id: 1, name: 'Alice', reason: 'Medical', dates: 'June 3 - June 6' },
@@ -10,22 +12,29 @@ export default function LeaveManagement() {
   const [leaves, setLeaves] = useState(dummyLeaves)
 
   const handleSubmit = (id, action) => {
-    const msg = `Leave request ${action} for ID ${id}`
-    alert(msg)
-    setLeaves(leaves.filter((leave) => leave.id !== id))
+    alert(`Leave request ${action} for ID ${id}`)
+    setLeaves((prev) => prev.filter((leave) => leave.id !== id))
   }
 
   return (
-    <div className="bg-white border rounded-xl p-4 shadow-sm">
+    <motion.div
+      initial={{ opacity: 0, y: 12 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+      className="bg-white border rounded-xl p-6 shadow-sm"
+    >
       <h2 className="text-lg font-semibold mb-4 text-gray-800">📝 Leave Requests</h2>
+
       {leaves.length === 0 ? (
-        <p className="text-sm text-gray-600 italic">No pending requests</p>
+        <p className="text-sm text-gray-500 italic">No pending requests</p>
       ) : (
         <ul className="space-y-4">
           {leaves.map((leave) => (
-            <li
+            <motion.li
               key={leave.id}
-              className="border p-4 rounded-lg bg-red-50 flex justify-between items-center"
+              whileHover={{ scale: 1.01 }}
+              transition={{ type: 'spring', stiffness: 200, damping: 20 }}
+              className="border border-red-100 p-4 rounded-lg bg-red-50 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4"
             >
               <div>
                 <p className="font-semibold text-gray-800">{leave.name}</p>
@@ -47,10 +56,10 @@ export default function LeaveManagement() {
                   Reject
                 </button>
               </div>
-            </li>
+            </motion.li>
           ))}
         </ul>
       )}
-    </div>
+    </motion.div>
   )
 }

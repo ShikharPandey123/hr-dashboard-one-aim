@@ -9,7 +9,7 @@ export default function HRDashboardPage() {
       initial={{ opacity: 0, y: 24 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, ease: 'easeOut' }}
-      className="p-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 text-gray-700"
+      className="p-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 text-gray-800"
     >
       <ModuleCard title="Attendance" href="/attendance" />
       <ModuleCard title="Payroll" href="/payroll" />
@@ -23,4 +23,3 @@ export default function HRDashboardPage() {
     </motion.div>
   )
 }
-

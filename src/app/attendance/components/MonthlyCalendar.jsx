@@ -5,9 +5,8 @@ import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { motion } from 'framer-motion'
 
 const months = [
-  'January', 'February', 'March', 'April',
-  'May', 'June', 'July', 'August',
-  'September', 'October', 'November', 'December'
+  'January', 'February', 'March', 'April', 'May', 'June',
+  'July', 'August', 'September', 'October', 'November', 'December'
 ]
 
 const dummyEmployees = [
@@ -18,13 +17,10 @@ const dummyEmployees = [
 
 const generateDummyStatus = (year, month) => {
   const daysInMonth = new Date(year, month + 1, 0).getDate()
-  return Array.from({ length: daysInMonth }, (_, i) => {
-    const date = new Date(year, month, i + 1)
-    return {
-      date,
-      status: Math.random() > 0.2 ? 'Present' : 'Absent'
-    }
-  })
+  return Array.from({ length: daysInMonth }, (_, i) => ({
+    date: new Date(year, month, i + 1),
+    status: Math.random() > 0.2 ? 'Present' : 'Absent'
+  }))
 }
 
 export default function MonthlyCalendar() {
@@ -61,8 +57,8 @@ export default function MonthlyCalendar() {
       transition={{ duration: 0.6 }}
       className="bg-white border rounded-xl p-6 shadow"
     >
-      <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-4 gap-4">
-        <div className="flex flex-wrap items-center gap-2">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 gap-4">
+        <div className="flex items-center gap-2 flex-wrap">
           <h2 className="text-lg font-semibold text-gray-800">📆 Monthly Attendance</h2>
           <select
             className="border rounded px-2 py-1 text-sm text-gray-800"
@@ -92,7 +88,7 @@ export default function MonthlyCalendar() {
             value={selectedYear}
             onChange={(e) => setSelectedYear(Number(e.target.value))}
           >
-            {Array.from({ length: 10 }, (_, i) => 2015 + i).map(year => (
+            {Array.from({ length: 20 }, (_, i) => 2010 + i).map(year => (
               <option key={year} value={year}>{year}</option>
             ))}
           </select>
@@ -101,8 +97,7 @@ export default function MonthlyCalendar() {
           </button>
         </div>
       </div>
-
-      <div className="flex gap-6 text-sm mb-2">
+      <div className="flex gap-6 text-sm mb-3">
         <div className="flex items-center gap-2">
           <div className="w-3 h-3 bg-blue-500 rounded-full" />
           <span className="text-gray-600">Present</span>
@@ -112,18 +107,15 @@ export default function MonthlyCalendar() {
           <span className="text-gray-600">Absent</span>
         </div>
       </div>
-
       <div className="grid grid-cols-7 text-center text-xs text-gray-500 font-medium mb-1">
         {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map((d) => (
           <div key={d}>{d}</div>
         ))}
       </div>
-
       <div className="grid grid-cols-7 gap-2 text-sm">
         {Array.from({ length: firstDay }).map((_, i) => (
           <div key={`pad-${i}`} />
         ))}
-
         {data.map(({ date, status }) => {
           const isToday =
             date.getDate() === today.getDate() &&
@@ -136,13 +128,12 @@ export default function MonthlyCalendar() {
           return (
             <motion.div
               key={date.toISOString()}
-              initial={{ scale: 0.8, opacity: 0 }}
+              initial={{ scale: 0.85, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               transition={{ duration: 0.3 }}
               title={`${status} on ${date.toDateString()}`}
-              className={`p-2 rounded-lg text-center border font-medium ${colorClass} ${
-                isToday ? 'ring-2 ring-red-400' : ''
-              } hover:scale-105 transition-transform`}
+              className={`h-16 sm:h-20 flex flex-col items-center justify-center border font-medium rounded-md overflow-hidden
+                ${colorClass} ${isToday ? 'ring-2 ring-red-400' : ''} hover:scale-105 transition-transform duration-200`}
             >
               {date.getDate()}
             </motion.div>
