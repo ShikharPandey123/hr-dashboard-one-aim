@@ -3,13 +3,6 @@
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 
-const dummyData = [
-  { name: 'Alice Sharma', department: 'Engineering', present: 22, absent: 2, leaves: 3 },
-  { name: 'Bob Verma', department: 'Marketing', present: 20, absent: 4, leaves: 2 },
-  { name: 'Neha Reddy', department: 'HR', present: 21, absent: 3, leaves: 4 },
-  { name: 'Vikram Patel', department: 'Sales', present: 23, absent: 1, leaves: 1 },
-  { name: 'Sara Ali', department: 'Finance', present: 19, absent: 5, leaves: 5 },
-]
 
 function getPreviousMonthName() {
   const now = new Date()
@@ -30,16 +23,24 @@ export default function DailyAttendance() {
   const [data, setData] = useState(null)
 
   useEffect(() => {
-    const load = async () => {
-      const res = await new Promise(resolve => {
-        setTimeout(() => resolve({ json: () => dummyData }), 800)
-      })
-      const result = await res.json()
-      setData(result)
+  const fetchAttendance = async () => {
+    try {
+      const res = await fetch('/api/attendance/daily')
+      const data = await res.json()
+      setData(data)
+    } catch (err) {
+      setData([
+        { name: 'Alice Sharma', department: 'Engineering', present: 22, absent: 2, leaves: 3 },
+        { name: 'Bob Verma', department: 'Marketing', present: 20, absent: 4, leaves: 2 },
+        { name: 'Neha Reddy', department: 'HR', present: 21, absent: 3, leaves: 4 },
+        { name: 'Vikram Patel', department: 'Sales', present: 23, absent: 1, leaves: 1 },
+        { name: 'Sara Ali', department: 'Finance', present: 19, absent: 5, leaves: 5 }
+      ])
     }
+  }
+  fetchAttendance()
+}, [])
 
-    load()
-  }, [])
 
   return (
     <motion.div
@@ -52,8 +53,6 @@ export default function DailyAttendance() {
       <p className="text-sm text-gray-600 mb-6">
         Overview as of <span className="font-medium">{getToday()}</span>
       </p>
-
-      {/* Snapshot card */}
       <motion.div
         whileHover={{ scale: 1.02 }}
         transition={{ type: 'spring', stiffness: 160 }}

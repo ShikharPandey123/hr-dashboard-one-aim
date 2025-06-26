@@ -1,12 +1,11 @@
 'use client'
-
 import { Menu } from 'lucide-react'
 
-export default function Header({ onToggleSidebar }) {
+export default function Header({ onToggleSidebar, toggleRef }) {
   return (
     <header className="w-full px-4 sm:px-6 py-4 bg-white border-b border-gray-200 shadow-sm sticky top-0 z-50 flex items-center justify-between">
       <div className="flex items-center gap-3">
-        <button onClick={onToggleSidebar} className="md:hidden text-gray-700">
+        <button ref={toggleRef} onClick={onToggleSidebar} className="md:hidden text-gray-700">
           <Menu className="w-6 h-6" />
         </button>
 

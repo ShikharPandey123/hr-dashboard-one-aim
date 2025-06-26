@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useMemo } from 'react'
+import { useState, useEffect } from 'react'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { motion } from 'framer-motion'
 
@@ -25,14 +25,23 @@ const generateDummyStatus = (year, month) => {
 
 export default function MonthlyCalendar() {
   const today = new Date()
+  const [data, setData] = useState([])
   const [selectedMonth, setSelectedMonth] = useState(today.getMonth())
   const [selectedYear, setSelectedYear] = useState(today.getFullYear())
   const [selectedEmployee, setSelectedEmployee] = useState(dummyEmployees[0].id)
 
-  const data = useMemo(
-    () => generateDummyStatus(selectedYear, selectedMonth),
-    [selectedMonth, selectedYear, selectedEmployee]
-  )
+  useEffect(() => {
+   const fetchData = async () => {
+     try {
+       const res = await fetch(`/api/attendance/monthly?empId=${selectedEmployee}&month=${selectedMonth}&year=${selectedYear}`)
+       const data = await res.json()
+       setData(data)
+     } catch (err) {
+       setData(generateDummyStatus(selectedYear, selectedMonth))
+     }
+   }
+   fetchData()
+ }, [selectedMonth, selectedYear, selectedEmployee])
 
   const firstDay = new Date(selectedYear, selectedMonth, 1).getDay()
 
