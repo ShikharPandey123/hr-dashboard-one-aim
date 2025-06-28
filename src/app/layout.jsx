@@ -43,7 +43,7 @@ export default function RootLayout({ children }) {
           toggleRef={toggleBtnRef}
         />
 
-        <div className="flex h-[calc(100vh-64px)] relative">
+        <div className="flex min-h-[calc(100vh-64px)] relative">
           <div className="hidden md:block">
             <Sidebar />
           </div>

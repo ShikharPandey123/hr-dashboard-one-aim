@@ -2,10 +2,10 @@
 
 import { useState } from 'react'
 import { motion } from 'framer-motion'
-import SalaryProcessing from './components/SalaryProcessing'
-import IncrementProcessing from './components/IncrementProcessing'
-import DeductionProcessing from './components/DeductionProcessing'
-// import BonusIncentives from './components/BonusIncentives'
+import SalaryProcessing from './salary/page'
+import DeductionProcessing from './deduction/page'
+import IncrementProcessing from './increment/page'
+// import BonusIncentives from './bonus/page'
 
 const tabs = [
   { key: 'salary', label: '💰 Salary Processing' },

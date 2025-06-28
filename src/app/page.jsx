@@ -14,7 +14,7 @@ export default function HRDashboardPage() {
       <ModuleCard title="Attendance" href="/attendance" />
       <ModuleCard title="Payroll" href="/payroll" />
       <ModuleCard title="Recruitment" href="/recruitment" />
-      <ModuleCard title="Compliance" href="/compliance" />
+      <ModuleCard title="Compliance and Documentation" href="/documents" />
       <ModuleCard title="Notifications" href="/notifications" />
       <ModuleCard title="HR Actions" href="/actions" />
       <ModuleCard title="Employees" href="/employees" />
