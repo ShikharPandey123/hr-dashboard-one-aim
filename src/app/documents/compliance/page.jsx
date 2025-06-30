@@ -4,8 +4,6 @@ import { useEffect, useState } from 'react'
 
 export default function LegalCompliance() {
   const [records, setRecords] = useState([])
-  const [linkMap, setLinkMap] = useState({})
-  const [submittingId, setSubmittingId] = useState(null)
   const [sentMailIds, setSentMailIds] = useState([])
 
   useEffect(() => {
@@ -21,14 +19,14 @@ export default function LegalCompliance() {
             name: 'Vansh Ahuja',
             email: 'vansh@company.com',
             status: 'Pending',
-            driveLink: null
+            document: null
           },
           {
             id: 2,
             name: 'Neha Reddy',
             email: 'neha@company.com',
             status: 'Submitted',
-            driveLink: 'https://drive.google.com/sample-link'
+            document: '/docs/compliance-neha.pdf'
           }
         ])
       }
@@ -37,37 +35,9 @@ export default function LegalCompliance() {
     fetchComplianceData()
   }, [])
 
-  const handleUpload = async (id) => {
-    const link = linkMap[id]?.trim()
-    if (!link) return alert('Please paste a valid Drive link.')
-
-    setSubmittingId(id)
-
-    try {
-      await fetch(`/api/employees/compliance/${id}`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ driveLink: link })
-      })
-
-      setRecords((prev) =>
-        prev.map((emp) =>
-          emp.id === id ? { ...emp, status: 'Submitted', driveLink: link } : emp
-        )
-      )
-      setLinkMap((prev) => ({ ...prev, [id]: '' }))
-    } catch {
-      alert('Upload failed')
-    } finally {
-      setSubmittingId(null)
-    }
-  }
-
   return (
     <div className="bg-white border border-red-100 shadow-sm rounded-xl p-4 sm:p-6">
-      <h2 className="text-lg font-semibold text-gray-900 mb-4">
-        📄 Legal Compliance
-      </h2>
+      <h2 className="text-lg font-semibold text-gray-900 mb-4">📄 Legal Compliance</h2>
       <div className="hidden sm:block overflow-x-auto">
         <table className="min-w-full text-sm border rounded">
           <thead className="bg-red-50 text-gray-800">
@@ -77,7 +47,6 @@ export default function LegalCompliance() {
               <th className="text-left px-4 py-2 border-b">Email</th>
               <th className="text-left px-4 py-2 border-b">Status</th>
               <th className="text-left px-4 py-2 border-b">View</th>
-              <th className="text-left px-4 py-2 border-b">Upload Link</th>
               <th className="text-left px-4 py-2 border-b">Send Mail</th>
             </tr>
           </thead>
@@ -101,44 +70,18 @@ export default function LegalCompliance() {
                   </span>
                 </td>
                 <td className="px-4 py-2 border-b">
-                  {emp.driveLink ? (
+                  {emp.status === 'Submitted' && emp.document ? (
                     <a
-                      href={emp.driveLink}
+                      href={emp.document}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-sm text-red-700 underline"
+                      className="text-sm bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded"
                     >
-                      Open
+                      View
                     </a>
                   ) : (
                     '—'
                   )}
-                </td>
-                <td className="px-4 py-2 border-b">
-                  {emp.status === 'Pending' && (
-                    <div className="flex gap-2">
-                      <input
-                        type="url"
-                        value={linkMap[emp.id] || ''}
-                        onChange={(e) =>
-                          setLinkMap((prev) => ({
-                            ...prev,
-                            [emp.id]: e.target.value
-                          }))
-                        }
-                        placeholder="Paste Drive link"
-                        className="border px-2 py-1 rounded text-sm w-44"
-                      />
-                      <button
-                        onClick={() => handleUpload(emp.id)}
-                        disabled={submittingId === emp.id}
-                        className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded text-xs"
-                      >
-                        {submittingId === emp.id ? 'Uploading...' : 'Submit'}
-                      </button>
-                    </div>
-                  )}
-                  {emp.status !== 'Pending' && '—'}
                 </td>
                 <td className="px-4 py-2 border-b">
                   <button
@@ -163,7 +106,6 @@ export default function LegalCompliance() {
           </tbody>
         </table>
       </div>
-
       <div className="sm:hidden space-y-4">
         {records.map((emp, index) => (
           <div
@@ -171,7 +113,7 @@ export default function LegalCompliance() {
             className="border border-red-100 shadow-sm bg-white rounded-xl p-4 text-gray-800"
           >
             <p className="text-sm font-medium text-gray-900">
-              {index + 1} — {emp.name}
+              #{index + 1} — {emp.name}
             </p>
             <p className="text-sm text-gray-700">{emp.email}</p>
             <p className="text-sm">
@@ -189,43 +131,17 @@ export default function LegalCompliance() {
             </p>
 
             <div className="mt-3 space-y-2">
-              <p className="text-sm">
-                <strong>Drive Link: </strong>{' '}
-                {emp.driveLink ? (
-                  <a
-                    href={emp.driveLink}
-                    target="_blank"
-                    className="text-red-600 underline"
-                  >
-                    Open
-                  </a>
-                ) : (
-                  '—'
-                )}
-              </p>
-
-              {emp.status === 'Pending' && (
-                <div className="flex flex-col gap-2">
-                  <input
-                    type="url"
-                    value={linkMap[emp.id] || ''}
-                    onChange={(e) =>
-                      setLinkMap((prev) => ({
-                        ...prev,
-                        [emp.id]: e.target.value
-                      }))
-                    }
-                    placeholder="Paste Drive link"
-                    className="border px-2 py-1 rounded text-sm"
-                  />
-                  <button
-                    onClick={() => handleUpload(emp.id)}
-                    disabled={submittingId === emp.id}
-                    className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded text-xs"
-                  >
-                    {submittingId === emp.id ? 'Uploading...' : 'Submit'}
-                  </button>
-                </div>
+              {emp.status === 'Submitted' && emp.document ? (
+                <a
+                  href={emp.document}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-block bg-red-500 hover:bg-red-600 text-white text-xs px-3 py-1 rounded"
+                >
+                  View Document
+                </a>
+              ) : (
+                <p className="text-sm">No document submitted</p>
               )}
 
               <button

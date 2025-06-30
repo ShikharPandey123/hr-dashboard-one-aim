@@ -1,13 +1,13 @@
 'use client'
 
 import { useState } from 'react'
-import PANAndAadharRecords from './pan-aadhaar/page'
+// import PANAndAadharRecords from './pan-aadhaar/page'
 import BankDetails from './bank-details/page'
 import IdentityDocuments from './identity/page'
 import LegalCompliance from './compliance/page'
 
 const tabs = [
-  { label: 'PAN & Aadhar', icon: '🧾' },
+  // { label: 'PAN & Aadhar', icon: '🧾' },
   { label: 'Bank Details', icon: '🏦' },
   { label: 'Identity Docs', icon: '🪪' },
   { label: 'Legal Compliance', icon: '📄' }
@@ -35,10 +35,10 @@ export default function DocumentsPage() {
       </div>
 
       <div className="transition-all">
-        {activeTab === 0 && <PANAndAadharRecords />}
-        {activeTab === 1 && <BankDetails />}
-        {activeTab === 2 && <IdentityDocuments />}
-        {activeTab === 3 && <LegalCompliance />}
+        {/* {activeTab === 0 && <PANAndAadharRecords />} */}
+        {activeTab === 0 && <BankDetails />}
+        {activeTab === 1 && <IdentityDocuments />}
+        {activeTab === 2 && <LegalCompliance />}
       </div>
     </div>
   )
