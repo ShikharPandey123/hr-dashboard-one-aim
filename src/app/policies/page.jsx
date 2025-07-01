@@ -1,21 +1,52 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { useState } from 'react'
+import LeavePolicy from './leave/page'
+import AttendancePolicy from './attendance/page'
+import PerformancePolicy from './performance/page'
+import DisciplinePolicy from './discipline/page'
 
-export default function PoliciesPage() {
+const tabs = [
+  'Leave',
+  'Attendance',
+  'Performance',
+  'Discipline'
+]
+
+export default function PolicyManagementPage() {
+  const [activeTab, setActiveTab] = useState(0)
+
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 24 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.8, ease: 'easeOut' }}
-      className="px-4 py-6 sm:px-6 md:px-10 lg:px-16 xl:px-20 max-w-7xl mx-auto"
-    >
-      <h1 className="text-2xl sm:text-3xl font-bold text-red-600 mb-4 tracking-tight drop-shadow-sm">
-        HR Policies
+    <div className="p-4 sm:p-6 max-w-7xl mx-auto">
+      <h1 className="text-xl sm:text-2xl font-bold mb-4 text-gray-900">
+        📋 Policy Management
       </h1>
-      <p className="text-sm sm:text-base text-gray-700 leading-relaxed max-w-prose">
-        Review, update, and manage all employee policies including leave rules, attendance regulations, and disciplinary procedures.
-      </p>
-    </motion.div>
+
+      <div className="flex flex-wrap gap-2 mb-6">
+        {tabs.map((tab, index) => (
+          <button
+            key={index}
+            onClick={() => setActiveTab(index)}
+            className={`px-4 py-2 rounded-full font-medium text-sm ${
+              activeTab === index
+                ? 'bg-red-500 text-white hover:bg-red-600'
+                : 'bg-red-100 text-red-700 hover:bg-red-50'
+            }`}
+          >
+            {tab === 'Leave' && '📄 Leave'}
+            {tab === 'Attendance' && '🕒 Attendance'}
+            {tab === 'Performance' && '📈 Performance'}
+            {tab === 'Discipline' && '⚠️ Discipline'}
+          </button>
+        ))}
+      </div>
+
+      <div className="transition-all">
+        {activeTab === 0 && <LeavePolicy />}
+        {activeTab === 1 && <AttendancePolicy />}
+        {activeTab === 2 && <PerformancePolicy />}
+        {activeTab === 3 && <DisciplinePolicy />}
+      </div>
+    </div>
   )
 }

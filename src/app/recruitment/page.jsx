@@ -1,21 +1,52 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { useState } from 'react'
+import CandidateManagement from './candidateManagement/page'
+import InterviewScheduling from './interviewScheduling/page'
+import JobPostings from './jobPostings/page'
+import OnboardingProcess from './onboardingProcess/page'
+
+const tabs = [
+  'Candidate Management',
+  'Interview Scheduling',
+  'Job Postings',
+  'Onboarding Process'
+]
 
 export default function RecruitmentPage() {
+  const [activeTab, setActiveTab] = useState(0)
+
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 24 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.8, ease: 'easeOut' }}
-      className="px-4 py-6 sm:px-6 md:px-10 lg:px-16 xl:px-20 max-w-7xl mx-auto"
-    >
-      <h1 className="text-2xl sm:text-3xl font-bold text-red-600 mb-4 tracking-tight drop-shadow-sm">
-        Recruitment
+    <div className="p-4 sm:p-6 max-w-7xl mx-auto">
+      <h1 className="text-xl sm:text-2xl font-bold mb-4 text-gray-900">
+        🧾 Recruitment Dashboard
       </h1>
-      <p className="text-gray-700 leading-relaxed text-sm sm:text-base max-w-prose">
-        Manage job postings, candidate applications, and onboarding processes from this section.
-      </p>
-    </motion.div>
+
+      <div className="flex flex-wrap gap-2 mb-6">
+        {tabs.map((tab, index) => (
+          <button
+            key={index}
+            onClick={() => setActiveTab(index)}
+            className={`px-4 py-2 rounded-full font-medium text-sm ${
+              activeTab === index
+                ? 'bg-red-500 text-white hover:bg-red-600'
+                : 'bg-red-100 text-red-700 hover:bg-red-50'
+            }`}
+          >
+            {tab === 'Candidate Management' && '🧑‍💼 Candidate Management'}
+            {tab === 'Interview Scheduling' && '📅 Interview Scheduling'}
+            {tab === 'Job Postings' && '📢 Job Postings'}
+            {tab === 'Onboarding Process' && '📝 Onboarding Process'}
+          </button>
+        ))}
+      </div>
+
+      <div className="transition-all">
+        {activeTab === 0 && <CandidateManagement />}
+        {activeTab === 1 && <InterviewScheduling />}
+        {activeTab === 2 && <JobPostings />}
+        {activeTab === 3 && <OnboardingProcess />}
+      </div>
+    </div>
   )
 }
