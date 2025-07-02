@@ -46,7 +46,7 @@ export default function PerformancePage() {
   };
 
   return (
-    <div className="bg-white border rounded-xl p-6 shadow">
+    <div className="bg-white border rounded-xl p-6 shadow text-gray-800">
       <h2 className="text-xl font-bold mb-4 text-gray-800">📉 Performance Violations</h2>
       {violators.length === 0 ? (
         <p className="text-gray-500">✅ No performance issues found</p>

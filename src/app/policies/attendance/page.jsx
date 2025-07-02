@@ -46,7 +46,7 @@ export default function AttendancePage() {
   const defaulters = employees.filter((e) => e.attendance < 75);
 
   return (
-    <div className="bg-white border rounded-xl p-6 shadow">
+    <div className="bg-white border rounded-xl p-6 shadow text-gray-800">
       <h2 className="text-xl font-bold mb-4 text-gray-800">📉 Attendance Defaulters</h2>
       {defaulters.length === 0 ? (
         <p className="text-gray-500">✅ No defaulters found</p>
