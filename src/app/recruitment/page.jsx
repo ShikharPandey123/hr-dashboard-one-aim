@@ -1,10 +1,10 @@
 'use client'
 
 import { useState } from 'react'
-import CandidateManagement from './candidateManagement/page'
-import InterviewScheduling from './interviewScheduling/page'
-import JobPostings from './jobPostings/page'
-import OnboardingProcess from './onboardingProcess/page'
+import CandidateManagement from './CndidateManagement/page'
+import InterviewScheduling from './InterviewScheduling/page'
+import JobPostings from './JobPostings/page'
+import OnboardingProcess from './OnboardingProcess/page'
 
 const tabs = [
   'Candidate Management',
