@@ -2,9 +2,9 @@
 
 import { useState } from 'react'
 import CandidateManagement from './candidatemanagement/page'
-import InterviewScheduling from './InterviewScheduling/page'
-import JobPostings from './JobPostings/page'
-import OnboardingProcess from './OnboardingProcess/page'
+import InterviewScheduling from './interviewscheduling/page'
+import JobPostings from './jobpostings/page'
+import OnboardingProcess from './onboardingprocess/page'
 
 const tabs = [
   'Candidate Management',

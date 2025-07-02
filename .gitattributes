@@ -1,0 +1,6 @@
+* text=auto
+.gitignore text
+.gitattributes text
+
+# Enforce case-sensitive file handling
+* merge=union
