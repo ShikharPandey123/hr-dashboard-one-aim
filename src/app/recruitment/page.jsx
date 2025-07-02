@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import CandidateManagement from './CndidateManagement/page'
+import CandidateManagement from './CandidateManagement/page'
 import InterviewScheduling from './InterviewScheduling/page'
 import JobPostings from './JobPostings/page'
 import OnboardingProcess from './OnboardingProcess/page'
