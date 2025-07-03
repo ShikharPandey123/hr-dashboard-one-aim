@@ -3,7 +3,6 @@
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 
-
 function getPreviousMonthName() {
   const now = new Date()
   const prevMonth = new Date(now.getFullYear(), now.getMonth() - 1)
@@ -23,24 +22,23 @@ export default function DailyAttendance() {
   const [data, setData] = useState(null)
 
   useEffect(() => {
-  const fetchAttendance = async () => {
-    try {
-      const res = await fetch('/api/attendance/daily')
-      const data = await res.json()
-      setData(data)
-    } catch (err) {
-      setData([
-        { name: 'Alice Sharma', department: 'Engineering', present: 22, absent: 2, leaves: 3 },
-        { name: 'Bob Verma', department: 'Marketing', present: 20, absent: 4, leaves: 2 },
-        { name: 'Neha Reddy', department: 'HR', present: 21, absent: 3, leaves: 4 },
-        { name: 'Vikram Patel', department: 'Sales', present: 23, absent: 1, leaves: 1 },
-        { name: 'Sara Ali', department: 'Finance', present: 19, absent: 5, leaves: 5 }
-      ])
+    const fetchAttendance = async () => {
+      try {
+        const res = await fetch('/api/attendance/daily')
+        const data = await res.json()
+        setData(data)
+      } catch {
+        setData([
+          { name: 'Alice Sharma', department: 'Engineering', present: 22, absent: 2, leaves: 3 },
+          { name: 'Bob Verma', department: 'Marketing', present: 20, absent: 4, leaves: 2 },
+          { name: 'Neha Reddy', department: 'HR', present: 21, absent: 3, leaves: 4 },
+          { name: 'Vikram Patel', department: 'Sales', present: 23, absent: 1, leaves: 1 },
+          { name: 'Sara Ali', department: 'Finance', present: 19, absent: 5, leaves: 5 }
+        ])
+      }
     }
-  }
-  fetchAttendance()
-}, [])
-
+    fetchAttendance()
+  }, [])
 
   return (
     <motion.div
@@ -53,6 +51,7 @@ export default function DailyAttendance() {
       <p className="text-sm text-gray-600 mb-6">
         Overview as of <span className="font-medium">{getToday()}</span>
       </p>
+
       <motion.div
         whileHover={{ scale: 1.02 }}
         transition={{ type: 'spring', stiffness: 160 }}
@@ -76,7 +75,24 @@ export default function DailyAttendance() {
             📊 Monthly Summary — <span className="text-red-600">{getPreviousMonthName()}</span>
           </h3>
 
-          <div className="overflow-x-auto">
+          <div className="block sm:hidden space-y-4">
+            {data.map((emp, i) => (
+              <motion.div
+                key={i}
+                whileHover={{ scale: 1.01 }}
+                transition={{ type: 'spring', stiffness: 200, damping: 18 }}
+                className="bg-red-50 border border-red-200 rounded-xl p-4 text-sm shadow-sm"
+              >
+                <p><span className="font-semibold">Name:</span> {emp.name}</p>
+                <p><span className="font-semibold">Department:</span> {emp.department}</p>
+                <p><span className="text-blue-600 font-medium">Present:</span> {emp.present}</p>
+                <p><span className="text-red-600 font-medium">Absent:</span> {emp.absent}</p>
+                <p><span className="text-purple-600 font-medium">Leaves:</span> {emp.leaves}</p>
+              </motion.div>
+            ))}
+          </div>
+
+          <div className="hidden sm:block overflow-x-auto">
             <table className="min-w-full text-sm border rounded-lg overflow-hidden">
               <thead className="bg-red-50 text-gray-800">
                 <tr>

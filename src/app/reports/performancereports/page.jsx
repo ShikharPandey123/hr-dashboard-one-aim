@@ -28,33 +28,67 @@ export default function PerformanceReports() {
   if (loading) return <p className="text-gray-500">Loading performance data...</p>;
 
   return (
-    <div className="bg-white border rounded-xl p-6 shadow ">
+    <div className="bg-white border rounded-xl p-6 shadow text-gray-800">
       <h2 className="text-xl font-bold mb-4">📈 Performance Reports</h2>
-
-      <table className="min-w-full text-sm border rounded">
-        <thead className="bg-gray-100">
-          <tr>
-            <th className="text-left px-4 py-2 border-b">Employee</th>
-            <th className="text-left px-4 py-2 border-b">Rating</th>
-            <th className="text-left px-4 py-2 border-b">Feedback</th>
-          </tr>
-        </thead>
-        <tbody>
-          {reviews.map((r) => (
-            <tr key={r.id} className="hover:bg-gray-50">
-              <td className="px-4 py-2 border-b">{r.name}</td>
-              <td
-                className={`px-4 py-2 border-b font-medium ${
-                  r.rating < 3 ? 'text-red-600' : r.rating < 4 ? 'text-yellow-600' : 'text-green-700'
+      <div className="block sm:hidden space-y-4">
+        {reviews.map((r) => (
+          <div
+            key={r.id}
+            className="bg-gray-50 border border-gray-200 rounded-xl p-4 shadow-sm text-sm"
+          >
+            <p>
+              <span className="font-semibold">Name:</span> {r.name}
+            </p>
+            <p>
+              <span className="font-semibold">Rating:</span>{' '}
+              <span
+                className={`font-medium ${
+                  r.rating < 3
+                    ? 'text-red-600'
+                    : r.rating < 4
+                    ? 'text-yellow-600'
+                    : 'text-green-700'
                 }`}
               >
                 {r.rating}
-              </td>
-              <td className="px-4 py-2 border-b">{r.feedback}</td>
+              </span>
+            </p>
+            <p>
+              <span className="font-semibold">Feedback:</span> {r.feedback}
+            </p>
+          </div>
+        ))}
+      </div>
+      <div className="hidden sm:block overflow-x-auto">
+        <table className="w-full text-sm border rounded min-w-[500px]">
+          <thead className="bg-gray-100">
+            <tr>
+              <th className="text-left px-4 py-2 border-b">Employee</th>
+              <th className="text-left px-4 py-2 border-b">Rating</th>
+              <th className="text-left px-4 py-2 border-b">Feedback</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {reviews.map((r) => (
+              <tr key={r.id} className="hover:bg-gray-50">
+                <td className="px-4 py-2 border-b">{r.name}</td>
+                <td
+                  className={`px-4 py-2 border-b font-medium ${
+                    r.rating < 3
+                      ? 'text-red-600'
+                      : r.rating < 4
+                      ? 'text-yellow-600'
+                      : 'text-green-700'
+                  }`}
+                >
+                  {r.rating}
+                </td>
+                <td className="px-4 py-2 border-b">{r.feedback}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }

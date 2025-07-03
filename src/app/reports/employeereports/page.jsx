@@ -30,36 +30,58 @@ export default function EmployeeReports() {
   return (
     <div className="bg-white border rounded-xl p-6 shadow text-gray-800">
       <h2 className="text-xl font-bold mb-4">🧑‍💼 Employee Reports</h2>
-      <table className="min-w-full text-sm border rounded">
-        <thead className="bg-gray-100">
-          <tr>
-            <th className="text-left px-4 py-2 border-b">Name</th>
-            <th className="text-left px-4 py-2 border-b">Department</th>
-            <th className="text-left px-4 py-2 border-b">Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          {employees.map((emp) => (
-            <tr key={emp.id} className="hover:bg-gray-50">
-              <td className="px-4 py-2 border-b">{emp.name}</td>
-              <td className="px-4 py-2 border-b">{emp.department}</td>
-              <td className="px-4 py-2 border-b">
-                <span
-                  className={`px-2 py-0.5 rounded text-xs font-medium ${
+
+      <div className="block sm:hidden space-y-4">
+        {employees.map((emp) => (
+          <div key={emp.id} className="bg-gray-50 border border-gray-200 rounded-xl p-4 text-sm shadow-sm">
+            <p><span className="font-semibold">Name:</span> {emp.name}</p>
+            <p><span className="font-semibold">Department:</span> {emp.department}</p>
+            <p>
+              <span className="font-semibold">Status:</span>{' '}
+              <span className={`px-2 py-0.5 rounded text-xs font-medium ${
+                emp.status === 'Active'
+                  ? 'bg-green-100 text-green-700'
+                  : emp.status === 'On Leave'
+                  ? 'bg-yellow-100 text-yellow-700'
+                  : 'bg-red-100 text-red-700'
+              }`}>
+                {emp.status}
+              </span>
+            </p>
+          </div>
+        ))}
+      </div>
+
+      <div className="hidden sm:block overflow-x-auto">
+        <table className="w-full text-sm border rounded min-w-[500px]">
+          <thead className="bg-gray-100">
+            <tr>
+              <th className="text-left px-4 py-2 border-b">Name</th>
+              <th className="text-left px-4 py-2 border-b">Department</th>
+              <th className="text-left px-4 py-2 border-b">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            {employees.map((emp) => (
+              <tr key={emp.id} className="hover:bg-gray-50">
+                <td className="px-4 py-2 border-b">{emp.name}</td>
+                <td className="px-4 py-2 border-b">{emp.department}</td>
+                <td className="px-4 py-2 border-b">
+                  <span className={`px-2 py-0.5 rounded text-xs font-medium ${
                     emp.status === 'Active'
                       ? 'bg-green-100 text-green-700'
                       : emp.status === 'On Leave'
                       ? 'bg-yellow-100 text-yellow-700'
                       : 'bg-red-100 text-red-700'
-                  }`}
-                >
-                  {emp.status}
-                </span>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+                  }`}>
+                    {emp.status}
+                  </span>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }

@@ -59,7 +59,6 @@ export default function InterviewScheduling() {
     setInterviews((prev) => [...prev, newItem]);
     setForm({ candidate: "", role: "", date: "", time: "", interviewer: "" });
 
-    // Trigger backend invite email
     fetch("/api/recruitment/interviews/invite", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -71,9 +70,7 @@ export default function InterviewScheduling() {
 
   return (
     <div className="bg-white border border-red-100 rounded-xl p-4 sm:p-6 shadow-sm text-gray-900">
-      <h2 className="text-lg font-semibold text-gray-900 mb-4">
-        📅 Interview Scheduling
-      </h2>
+      <h2 className="text-lg font-semibold text-gray-900 mb-4">📅 Interview Scheduling</h2>
 
       <div className="grid sm:grid-cols-5 gap-3 mb-4">
         <input
@@ -118,7 +115,31 @@ export default function InterviewScheduling() {
         ➕ Schedule Interview
       </button>
 
-      <div className="overflow-x-auto">
+      <div className="block sm:hidden space-y-4">
+        {interviews.map((iv) => (
+          <div key={iv.id} className="bg-red-50 border border-red-200 rounded-xl p-4 text-sm shadow-sm">
+            <p><span className="font-semibold">Candidate:</span> {iv.candidate}</p>
+            <p><span className="font-semibold">Role:</span> {iv.role}</p>
+            <p><span className="font-semibold">Date:</span> {iv.date}</p>
+            <p><span className="font-semibold">Time:</span> {iv.time}</p>
+            <p><span className="font-semibold">Interviewer:</span> {iv.interviewer}</p>
+            <p>
+              <span className="font-semibold">Status:</span>{' '}
+              <span className={`inline-block mt-1 px-2 py-1 rounded text-xs font-medium ${
+                iv.status === "Completed"
+                  ? "bg-green-100 text-green-600"
+                  : iv.status === "Cancelled"
+                  ? "bg-gray-200 text-gray-500"
+                  : "bg-yellow-100 text-yellow-700"
+              }`}>
+                {iv.status}
+              </span>
+            </p>
+          </div>
+        ))}
+      </div>
+
+      <div className="hidden sm:block overflow-x-auto">
         <table className="min-w-full text-sm border rounded">
           <thead className="bg-red-50 text-gray-800">
             <tr>

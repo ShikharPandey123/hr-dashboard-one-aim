@@ -31,8 +31,27 @@ export default function AttendanceReports() {
     <div className="bg-white border rounded-xl p-6 shadow text-gray-800">
       <h2 className="text-xl font-bold mb-4">📅 Attendance Reports</h2>
 
-      <div className="overflow-x-auto">
-        <table className="min-w-full text-sm border rounded">
+      <div className="block sm:hidden space-y-4">
+        {data.map((emp) => {
+          const percent = ((emp.presentDays / emp.totalDays) * 100).toFixed(1);
+          return (
+            <div key={emp.id} className="bg-gray-50 border border-gray-200 rounded-xl p-4 text-sm shadow-sm">
+              <p><span className="font-semibold">Name:</span> {emp.name}</p>
+              <p><span className="font-semibold">Present Days:</span> {emp.presentDays}</p>
+              <p><span className="font-semibold">Total Days:</span> {emp.totalDays}</p>
+              <p>
+                <span className="font-semibold">Attendance %:</span>{' '}
+                <span className={percent < 75 ? 'text-red-600 font-medium' : 'text-green-600 font-medium'}>
+                  {percent}%
+                </span>
+              </p>
+            </div>
+          );
+        })}
+      </div>
+
+      <div className="hidden sm:block overflow-x-auto">
+        <table className="w-full text-sm border rounded min-w-[500px]">
           <thead className="bg-gray-100">
             <tr>
               <th className="text-left px-4 py-2 border-b">Employee</th>
@@ -50,9 +69,7 @@ export default function AttendanceReports() {
                   <td className="px-4 py-2 border-b">{emp.presentDays}</td>
                   <td className="px-4 py-2 border-b">{emp.totalDays}</td>
                   <td className="px-4 py-2 border-b">
-                    <span
-                      className={percent < 75 ? 'text-red-600 font-medium' : 'text-green-600 font-medium'}
-                    >
+                    <span className={percent < 75 ? 'text-red-600 font-medium' : 'text-green-600 font-medium'}>
                       {percent}%
                     </span>
                   </td>

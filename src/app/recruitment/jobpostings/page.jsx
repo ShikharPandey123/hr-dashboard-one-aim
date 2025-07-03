@@ -67,10 +67,8 @@ export default function JobPostings() {
   };
 
   return (
-    <div className="bg-white border border-red-100 rounded-xl p-4 sm:p-6 shadow-sm ">
-      <h2 className="text-lg font-semibold text-gray-900 mb-4">
-        📢 Job Postings
-      </h2>
+    <div className="bg-white border border-red-100 rounded-xl p-4 sm:p-6 shadow-sm text-gray-900">
+      <h2 className="text-lg font-semibold text-gray-900 mb-4">📢 Job Postings</h2>
 
       <div className="grid sm:grid-cols-5 gap-3 mb-4">
         <input
@@ -118,7 +116,37 @@ export default function JobPostings() {
         ➕ Add Job Posting
       </button>
 
-      <div className="overflow-x-auto">
+      <div className="block sm:hidden space-y-4">
+        {postings.map((job) => (
+          <div key={job.id} className="bg-red-50 border border-red-200 rounded-xl p-4 text-sm shadow-sm">
+            <p><span className="font-semibold">Title:</span> {job.title}</p>
+            <p><span className="font-semibold">Department:</span> {job.department}</p>
+            <p><span className="font-semibold">Location:</span> {job.location}</p>
+            <p><span className="font-semibold">Openings:</span> {job.openings}</p>
+            <p><span className="font-semibold">Status:</span>{' '}
+              <span className={`inline-block mt-1 px-2 py-1 rounded text-xs font-medium ${
+                job.status === "Open"
+                  ? "bg-green-100 text-green-600"
+                  : "bg-gray-200 text-gray-600"
+              }`}>
+                {job.status}
+              </span>
+            </p>
+            <p className="mt-1">
+              <a
+                href={`/careers/${job.id}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-sm text-red-700 underline"
+              >
+                View Link
+              </a>
+            </p>
+          </div>
+        ))}
+      </div>
+
+      <div className="hidden sm:block overflow-x-auto">
         <table className="min-w-full text-sm border rounded">
           <thead className="bg-red-50 text-gray-800">
             <tr>

@@ -131,7 +131,7 @@ export default function DeductionPage() {
             className="border border-red-100 rounded-xl p-4 shadow-sm text-gray-800"
           >
             <p className="font-medium text-sm text-gray-900">
-              S.no{index + 1} — {emp.name}
+              {index + 1} — {emp.name}
             </p>
             <p className="text-sm">Org: {emp.organization}</p>
             <p className="text-sm">Dept: {emp.department}</p>
@@ -142,7 +142,6 @@ export default function DeductionPage() {
                 <span className="text-xs text-gray-500">Applied</span>
               ) : (
                 <div className="flex flex-col gap-2">
-                  +{" "}
                   <input
                     type="number"
                     placeholder="%"

@@ -55,20 +55,71 @@ export default function CandidateManagement() {
     await fetch(`/api/recruitment/${type}`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ to: email, type: label })
+      body: JSON.stringify({ to: email, type: label }),
     });
     const now = new Date().toLocaleString();
-    setMailLog(prev => ({ ...prev, [key]: now }));
+    setMailLog((prev) => ({ ...prev, [key]: now }));
     alert(`📤 ${type === "send-mail" ? "Mail sent" : "Request sent"} for ${label} to ${email}`);
   };
 
   return (
-    <div className="bg-white border border-red-100 shadow-sm rounded-xl p-4 sm:p-6">
+    <div className="bg-white border border-red-100 shadow-sm rounded-xl p-4 sm:p-6 text-gray-900">
       <h2 className="text-lg font-semibold text-gray-900 mb-4">
         🧑‍💼 Candidate Document Tracking
       </h2>
 
-      <div className="overflow-x-auto">
+      <div className="block sm:hidden space-y-4">
+        {candidates.map((c) => (
+          <div key={c.id} className="bg-red-50 border border-red-200 rounded-xl p-4 text-sm shadow-sm">
+            <p><span className="font-semibold">Name:</span> {c.name}</p>
+            <p><span className="font-semibold">Email:</span> {c.email}</p>
+            <div className="mt-2 space-y-1">
+              {["Acknowledgement", "LOI", "Offer Letter"].map((label) => (
+                <div key={label} className="flex justify-between items-center">
+                  <span>{label}</span>
+                  <button
+                    disabled={!!mailLog[`${c.id}-send-mail-${label}`]}
+                    className={`text-xs ml-2 px-2 py-0.5 rounded ${
+                      mailLog[`${c.id}-send-mail-${label}`]
+                        ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                        : "bg-blue-500 text-white hover:bg-blue-600"
+                    }`}
+                    onClick={() => handleMail(c.id, c.email, label, "send-mail")}
+                  >
+                    {mailLog[`${c.id}-send-mail-${label}`] ? "Sent" : "Send"}
+                  </button>
+                </div>
+              ))}
+              {["Signed Policy"].map((label) => (
+                <div key={label} className="flex justify-between items-center">
+                  <span>{label}</span>
+                  <button
+                    disabled={!!mailLog[`${c.id}-request-doc-${label}`]}
+                    className={`text-xs ml-2 px-2 py-0.5 rounded ${
+                      mailLog[`${c.id}-request-doc-${label}`]
+                        ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                        : "bg-green-500 text-white hover:bg-green-600"
+                    }`}
+                    onClick={() => handleMail(c.id, c.email, label, "request-doc")}
+                  >
+                    {mailLog[`${c.id}-request-doc-${label}`] ? "Requested" : "Request"}
+                  </button>
+                </div>
+              ))}
+            </div>
+            <div className="mt-3">
+              <button
+                onClick={() => setModalData({ name: c.name, docs: c.onboardingDocs })}
+                className="bg-red-500 hover:bg-red-600 text-white text-xs px-3 py-1 rounded w-full"
+              >
+                View Status
+              </button>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div className="hidden sm:block overflow-x-auto">
         <table className="min-w-full text-sm border rounded">
           <thead className="bg-red-50 text-gray-800">
             <tr>
@@ -85,24 +136,32 @@ export default function CandidateManagement() {
                 <td className="px-4 py-2 border-b">{c.email}</td>
                 <td className="px-4 py-2 border-b">
                   <div className="space-y-1">
-                    {["Acknowledgement", "LOI", "Offer Letter"].map(label => (
+                    {["Acknowledgement", "LOI", "Offer Letter"].map((label) => (
                       <div key={label} className="flex justify-between items-center">
                         <span>{label}</span>
                         <button
                           disabled={!!mailLog[`${c.id}-send-mail-${label}`]}
-                          className={`text-xs ml-2 px-2 py-0.5 rounded ${mailLog[`${c.id}-send-mail-${label}`] ? "bg-gray-300 text-gray-500 cursor-not-allowed" : "bg-blue-500 text-white hover:bg-blue-600"}`}
+                          className={`text-xs ml-2 px-2 py-0.5 rounded ${
+                            mailLog[`${c.id}-send-mail-${label}`]
+                              ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                              : "bg-blue-500 text-white hover:bg-blue-600"
+                          }`}
                           onClick={() => handleMail(c.id, c.email, label, "send-mail")}
                         >
                           {mailLog[`${c.id}-send-mail-${label}`] ? "Sent" : "Send"}
                         </button>
                       </div>
                     ))}
-                    {["Signed Policy"].map(label => (
+                    {["Signed Policy"].map((label) => (
                       <div key={label} className="flex justify-between items-center">
                         <span>{label}</span>
                         <button
                           disabled={!!mailLog[`${c.id}-request-doc-${label}`]}
-                          className={`text-xs ml-2 px-2 py-0.5 rounded ${mailLog[`${c.id}-request-doc-${label}`] ? "bg-gray-300 text-gray-500 cursor-not-allowed" : "bg-green-500 text-white hover:bg-green-600"}`}
+                          className={`text-xs ml-2 px-2 py-0.5 rounded ${
+                            mailLog[`${c.id}-request-doc-${label}`]
+                              ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                              : "bg-green-500 text-white hover:bg-green-600"
+                          }`}
                           onClick={() => handleMail(c.id, c.email, label, "request-doc")}
                         >
                           {mailLog[`${c.id}-request-doc-${label}`] ? "Requested" : "Request"}
@@ -113,9 +172,7 @@ export default function CandidateManagement() {
                 </td>
                 <td className="px-4 py-2 border-b">
                   <button
-                    onClick={() =>
-                      setModalData({ name: c.name, docs: c.onboardingDocs })
-                    }
+                    onClick={() => setModalData({ name: c.name, docs: c.onboardingDocs })}
                     className="bg-red-500 hover:bg-red-600 text-white text-xs px-3 py-1 rounded"
                   >
                     View Status

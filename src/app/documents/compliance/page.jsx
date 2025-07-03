@@ -113,7 +113,7 @@ export default function LegalCompliance() {
             className="border border-red-100 shadow-sm bg-white rounded-xl p-4 text-gray-800"
           >
             <p className="text-sm font-medium text-gray-900">
-              #{index + 1} — {emp.name}
+              {index + 1} — {emp.name}
             </p>
             <p className="text-sm text-gray-700">{emp.email}</p>
             <p className="text-sm">
@@ -130,7 +130,7 @@ export default function LegalCompliance() {
               </span>
             </p>
 
-            <div className="mt-3 space-y-2">
+            <div className="mt-3 space-y-2 mx-2">
               {emp.status === 'Submitted' && emp.document ? (
                 <a
                   href={emp.document}

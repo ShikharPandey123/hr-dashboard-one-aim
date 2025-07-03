@@ -32,10 +32,7 @@ export default function OnboardingProcess() {
             name: 'Neha Reddy',
             email: 'neha@company.com',
             status: 'Pending Manager Approval',
-            progress: [
-              'Resume Received',
-              'Forwarded to Manager'
-            ]
+            progress: ['Resume Received', 'Forwarded to Manager']
           }
         ])
       }
@@ -58,10 +55,57 @@ export default function OnboardingProcess() {
   }
 
   return (
-    <div className="bg-white border border-red-100 shadow-sm rounded-xl p-4 sm:p-6">
+    <div className="bg-white border border-red-100 shadow-sm rounded-xl p-4 sm:p-6 text-gray-900">
       <h2 className="text-lg font-semibold text-gray-900 mb-4">📝 Onboarding Tracker</h2>
 
-      <div className="overflow-x-auto">
+      <div className="block sm:hidden space-y-4">
+        {candidates.map((c) => {
+          const current = c.progress[c.progress.length - 1]
+          const next = nextSteps[current]
+          return (
+            <div key={c.id} className="bg-red-50 border border-red-200 rounded-xl p-4 text-sm shadow-sm">
+              <p><span className="font-semibold">Name:</span> {c.name}</p>
+              <p><span className="font-semibold">Email:</span> {c.email}</p>
+              <p className="mt-1">
+                <span className="inline-block px-2 py-1 rounded text-xs font-medium bg-yellow-100 text-yellow-700">
+                  {c.status}
+                </span>
+              </p>
+              <ul className="list-disc list-inside text-xs text-gray-600 mt-2">
+                {c.progress.map((step, i) => (
+                  <li key={i}>{step}</li>
+                ))}
+              </ul>
+              <div className="mt-3">
+                {next ? (
+                  <button
+                    onClick={() => {
+                      setCandidates((prev) =>
+                        prev.map((x) =>
+                          x.id === c.id
+                            ? {
+                                ...x,
+                                progress: [...x.progress, next],
+                                status: next === 'Completed' ? 'Completed' : next
+                              }
+                            : x
+                        )
+                      )
+                    }}
+                    className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded text-xs w-full"
+                  >
+                    {next}
+                  </button>
+                ) : (
+                  <span className="text-xs text-green-600">✔ All steps done</span>
+                )}
+              </div>
+            </div>
+          )
+        })}
+      </div>
+
+      <div className="hidden sm:block overflow-x-auto">
         <table className="min-w-full text-sm border rounded">
           <thead className="bg-red-50 text-gray-800">
             <tr>
@@ -76,7 +120,6 @@ export default function OnboardingProcess() {
             {candidates.map((c) => {
               const current = c.progress[c.progress.length - 1]
               const next = nextSteps[current]
-
               return (
                 <tr key={c.id} className="hover:bg-red-50 text-gray-700">
                   <td className="px-4 py-2 border-b">{c.name}</td>
@@ -94,7 +137,7 @@ export default function OnboardingProcess() {
                     </ul>
                   </td>
                   <td className="px-4 py-2 border-b">
-                    {next && (
+                    {next ? (
                       <button
                         onClick={() => {
                           setCandidates((prev) =>
@@ -113,8 +156,9 @@ export default function OnboardingProcess() {
                       >
                         {next}
                       </button>
+                    ) : (
+                      <span className="text-xs text-green-600">✔ All steps done</span>
                     )}
-                    {!next && <span className="text-xs text-green-600">✔ All steps done</span>}
                   </td>
                 </tr>
               )
@@ -125,5 +169,3 @@ export default function OnboardingProcess() {
     </div>
   )
 }
-
-
